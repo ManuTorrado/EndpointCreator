@@ -14,6 +14,8 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { GrFormAdd } from "react-icons/gr";
+import { IoMdDownload } from "react-icons/io";
+import { MdUpload } from "react-icons/md";
 function App() {
   const [infoContent, setInfoContent] = useState([<Info />]);
 
@@ -33,8 +35,12 @@ function App() {
       >
         <Text fontSize="4xl">Endpoint Maker ⚙️</Text>
         <ButtonGroup>
-          <Button variant="ghost">Download JSON</Button>
-          <Button variant="ghost">Download JSON</Button>
+          <Button variant="ghost" rightIcon={<IoMdDownload />}>
+            Download JSON
+          </Button>
+          <Button variant="ghost" rightIcon={<MdUpload />}>
+            Upload JSON
+          </Button>
         </ButtonGroup>
       </Box>
 
