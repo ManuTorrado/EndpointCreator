@@ -1,34 +1,59 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import vitesvg from "./assets/vite.svg";
-import "./App.css";
-
+import Add from "./comps/Add";
+import Info from "./comps/Info";
+import "./index.css";
+import {
+  Button,
+  Text,
+  Box,
+  Stack,
+  Container,
+  ButtonGroup,
+  Input,
+  Center,
+  Flex,
+} from "@chakra-ui/react";
+import { GrFormAdd } from "react-icons/gr";
 function App() {
-  const [count, setCount] = useState(0);
+  const [infoContent, setInfoContent] = useState([<Info />]);
+
+  const addInfo = () => {
+    setInfoContent([...infoContent, <Info />]);
+  };
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={vitesvg} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
+    <>
+      <Box
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-around",
+          backgroundColor: "#fffc65",
+        }}
+      >
+        <Text fontSize="4xl">Endpoint Maker ⚙️</Text>
+        <Button variant="ghost">Download JSON</Button>
+      </Box>
+
+      <br />
+
+      <ButtonGroup isAttached variant="outline">
+        <Button>Post</Button>
+        <Button>Get</Button>
+        <Button>Patch</Button>
+        <Button>Put</Button>
+      </ButtonGroup>
+      <br />
+      <br />
+      <Flex minWidth="max-content" justifyContent="start">
+        <Box style={{ width: "25%" }}>
+          <Stack>{infoContent}</Stack>
+          <Button style={{ width: "100%" }} onClick={addInfo}>
+            <GrFormAdd />
+          </Button>
+        </Box>
+      </Flex>
+    </>
   );
 }
 
