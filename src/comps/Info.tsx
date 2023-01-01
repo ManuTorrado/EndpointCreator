@@ -6,17 +6,23 @@ import {
   Button,
   ButtonGroup,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BsTrash } from "react-icons/bs";
 import { BsPencil } from "react-icons/bs";
 
-const Info = () => {
-  type Endpoint = "GET" | "POST" | "PATCH" | "PUT";
-  const [endpointType, setEndpointType] = useState<Endpoint>("GET");
-  const [route, setRoute] = useState("/");
+type RequestType = "GET" | "POST" | "PATCH" | "PUT";
+
+interface Props {
+  request: string;
+  dir: string;
+}
+
+const Info = ({ request, dir }: Props) => {
+  const [endpointType, setEndpointType] = useState(request);
+  const [route, setRoute] = useState(dir);
   const [tagColor, setTagColor] = useState("red");
 
-  const endpointColor = () => {
+  useEffect(() => {
     switch (endpointType) {
       case "GET":
         setTagColor("red");
@@ -24,11 +30,17 @@ const Info = () => {
       case "POST":
         setTagColor("blue");
         break;
+      case "PATCH":
+        setTagColor("pink");
+        break;
+      case "PUT":
+        setTagColor("green");
+        break;
 
       default:
         setTagColor("red");
     }
-  };
+  });
 
   return (
     <div
@@ -45,7 +57,7 @@ const Info = () => {
               <TagLabel>{endpointType}</TagLabel>
             </Tag>
 
-            <Tag contentEditable variant="solid" colorScheme="yellow">
+            <Tag variant="solid" colorScheme="yellow">
               <TagLabel>{route}</TagLabel>
               <Code></Code>
             </Tag>
