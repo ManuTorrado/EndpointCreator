@@ -32,7 +32,10 @@ function App() {
         }}
       >
         <Text fontSize="4xl">Endpoint Maker ⚙️</Text>
-        <Button variant="ghost">Download JSON</Button>
+        <ButtonGroup>
+          <Button variant="ghost">Download JSON</Button>
+          <Button variant="ghost">Download JSON</Button>
+        </ButtonGroup>
       </Box>
 
       <br />
