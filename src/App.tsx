@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from "react";
-import Add from "./comps/Add";
+
 import Info from "./comps/Info";
 import "./index.css";
 import {
