@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useRef } from "react";
 
 import Info from "./comps/Info";
 import "./index.css";
@@ -7,10 +7,8 @@ import {
   Text,
   Box,
   Stack,
-  Container,
   ButtonGroup,
   Input,
-  Center,
   Flex,
   Modal,
   ModalContent,
@@ -18,17 +16,15 @@ import {
   useDisclosure,
   ModalHeader,
   ModalCloseButton,
-  ModalOverlay,
-  ModalFooter,
 } from "@chakra-ui/react";
 import { GrFormAdd } from "react-icons/gr";
 import { IoMdDownload } from "react-icons/io";
 import { MdUpload } from "react-icons/md";
-import { info } from "console";
 
 function App() {
   const [infoContent, setInfoContent] = useState([{ type: "", route: "" }]);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const intputFileRef = useRef<HTMLInputElement>(null);
 
   const [modalInfo, setModalInfo] = useState({ type: "", route: "" });
   const postInfo = infoContent.filter((info) =>
@@ -59,9 +55,24 @@ function App() {
   };
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(e);
     setModalInfo({ type: e.target.value, route: modalInfo.route });
   };
+
+  const handleFileSelect = () => {
+    intputFileRef.current?.click();
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files instanceof FileList) {
+      const file = e.target.files.item(0);
+      const text = await file?.text();
+
+      console.log(text);
+    }
+  };
+
+  const handleDownload = () => {};
+
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -100,16 +111,32 @@ function App() {
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-around",
-          backgroundColor: "#fffc65",
+          backgroundColor: "#ffef5c",
         }}
       >
         <Text fontSize="4xl">Endpoint Maker ⚙️</Text>
 
         <ButtonGroup>
-          <Button variant="ghost" rightIcon={<IoMdDownload />}>
-            Download JSON
+          <Button
+            onClick={handleDownload}
+            variant="ghost"
+            rightIcon={<IoMdDownload />}
+          >
+            <a>Download JSON</a>
           </Button>
-          <Button variant="ghost" rightIcon={<MdUpload />}>
+
+          <Input
+            onChange={handleFileUpload}
+            hidden
+            ref={intputFileRef}
+            accept=".json"
+            type={"file"}
+          />
+          <Button
+            onClick={handleFileSelect}
+            variant="ghost"
+            rightIcon={<MdUpload />}
+          >
             Upload JSON
           </Button>
         </ButtonGroup>
@@ -121,33 +148,33 @@ function App() {
         <GrFormAdd />
       </Button>
 
-      <Flex minWidth="max-content" justifyContent="start">
+      <Flex gap={3} minWidth="max-content" justifyContent="start">
         <Box style={{ width: "25%" }}>
           <Stack>
-            {getInfo.map((item) => (
-              <Info request={item.type} dir={item.route} />
+            {getInfo.map((item, index) => (
+              <Info key={index} request={item.type} dir={item.route} />
             ))}
           </Stack>
         </Box>
         <Box style={{ width: "25%" }}>
           <Stack>
-            {postInfo.map((item) => (
-              <Info request={item.type} dir={item.route} />
+            {postInfo.map((item, index) => (
+              <Info key={index} request={item.type} dir={item.route} />
             ))}
           </Stack>
         </Box>
         <Box style={{ width: "25%" }}>
           <Stack>
-            {putInfo.map((item) => (
-              <Info request={item.type} dir={item.route} />
+            {putInfo.map((item, index) => (
+              <Info key={index} request={item.type} dir={item.route} />
             ))}
           </Stack>
         </Box>
 
         <Box style={{ width: "25%" }}>
           <Stack>
-            {patchInfo.map((item) => (
-              <Info request={item.type} dir={item.route} />
+            {patchInfo.map((item, index) => (
+              <Info key={index} request={item.type} dir={item.route} />
             ))}
           </Stack>
         </Box>
